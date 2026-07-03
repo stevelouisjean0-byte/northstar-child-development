@@ -11,7 +11,7 @@ BLOCKS = img(16145654)               # toddler developmental play
 FAMILY = img(5336930)                # family with specialist
 OUTDOORS = img(14545192, 1200)       # children outdoors
 
-V_HOME = "https://videos.pexels.com/video-files/8925092/8925092-sd_960_540_25fps.mp4"
+V_HOME = "https://videos.pexels.com/video-files/6952302/6952302-sd_960_540_30fps.mp4"
 V_PLAY = "https://videos.pexels.com/video-files/8160138/8160138-sd_960_540_25fps.mp4"
 V_SEIT = "https://videos.pexels.com/video-files/8925026/8925026-sd_960_540_25fps.mp4"
 
