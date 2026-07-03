@@ -198,5 +198,47 @@ document.addEventListener('DOMContentLoaded', async function() {
 })();
 </script>
 
+<style>[data-nx-target]{scroll-margin-top:96px}</style>
+<script>
+/* NorthStar link activation (added post-export) */
+(function(){
+  function inFixed(el){while(el&&el!==document.body){if(getComputedStyle(el).position==='fixed')return true;el=el.parentElement;}return false;}
+  function findSection(kw){var els=document.body.getElementsByTagName('*'),best=null,bl=1e9;for(var i=0;i<els.length;i++){var el=els[i];if(inFixed(el))continue;var t=(el.textContent||'').trim().toLowerCase();if(t.length&&t.length<140&&t.indexOf(kw)>-1&&t.length<bl){best=el;bl=t.length;}}return best;}
+  var SECT={services:"services designed for your family",process:'simple steps toward the right support',why:'support that feels human',referral:'responsive referral pathway',areas:'serving families across all five boroughs',contact:'ready to take the first step',faq:'faq'};
+  var cache={};
+  function target(key){if(cache[key]&&document.body.contains(cache[key]))return cache[key];var el=findSection(SECT[key]);if(el){el.setAttribute('data-nx-target','1');cache[key]=el;}return el;}
+  var MAP=[
+    {t:['home'],k:'TOP'},
+    {t:['how it works','full process'],k:'process'},
+    {t:['why northstar','why families choose'],k:'why'},
+    {t:['referral partners','submit a referral'],k:'referral'},
+    {t:['service areas'],k:'areas'},
+    {t:['faq'],k:'faq'},
+    {t:['all services','explore services','seit','child development support','family navigation','learn more','services'],k:'services'},
+    {t:['contact','get started','ready to take','first step','submit'],k:'contact'}
+  ];
+  function keyFor(l){l=l.toLowerCase();for(var i=0;i<MAP.length;i++)for(var j=0;j<MAP[i].t.length;j++)if(l.indexOf(MAP[i].t[j])>-1)return MAP[i].k;return null;}
+  function wire(){
+    var links=document.querySelectorAll('a');
+    for(var i=0;i<links.length;i++){(function(a){
+      var href=a.getAttribute('href')||'';
+      if(href!=='#'&&href.trim()!=='')return;
+      if(a.dataset.nxWired)return;
+      var key=keyFor((a.textContent||'').trim()); if(!key)return;
+      a.dataset.nxWired='1';
+      a.style.cursor='pointer';
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        if(key==='TOP'){window.scrollTo({top:0,behavior:'smooth'});return;}
+        var el=target(key)||target('contact');
+        if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    })(links[i]);}
+  }
+  var n=0,iv=setInterval(function(){wire();if(++n>80)clearInterval(iv);},100);
+  new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
